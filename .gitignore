@@ -28,3 +28,6 @@ $RECYCLE.BIN/
 
 # Downloaded zip archives
 *.zip
+
+# Claude Code
+.claude/
