@@ -132,6 +132,16 @@ extends CharacterBody3D
 
 #endregion
 
+#region Step Climb Export Group
+
+@export_group("Step Climb")
+## Automatically step up low obstacles like stairs.
+@export var step_climb_enabled : bool = true
+## Maximum height the character can step up in one frame.
+@export var step_max_height : float = 0.45
+
+#endregion
+
 #region Lean Export Group
 
 @export_group("Lean")
@@ -283,9 +293,23 @@ func handle_jumping():
 				velocity.y += jump_velocity
 
 
+func handle_step_climb(delta: float) -> void:
+	if not step_climb_enabled or not is_on_floor() or state == "wall_riding":
+		return
+	var h_motion := Vector3(velocity.x, 0.0, velocity.z) * delta
+	if h_motion.length_squared() < 0.001:
+		return
+	var raised := global_transform.translated(Vector3(0.0, step_max_height, 0.0))
+	if test_move(global_transform, h_motion) and not test_move(raised, h_motion):
+		global_position.y += step_max_height
+		velocity.y = 0.0
+
+
 func handle_movement(delta, input_dir):
 	var direction = input_dir.rotated(-HEAD.rotation.y)
 	direction = Vector3(direction.x, 0, direction.y)
+	if step_climb_enabled:
+		handle_step_climb(delta)
 	move_and_slide()
 
 	if in_air_momentum:
