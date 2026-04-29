@@ -67,7 +67,8 @@ extends CharacterBody3D
 	SPRINT = "sprint",
 	PAUSE = "ui_cancel",
 	LEAN_LEFT = "lean_left",
-	LEAN_RIGHT = "lean_right"
+	LEAN_RIGHT = "lean_right",
+	INTERACT = "interact"
 	}
 @export_subgroup("Controller Specific")
 ## This only affects how the camera is handled, the rest should be covered by adding controller inputs to the existing actions in the Input Map.
@@ -165,10 +166,20 @@ extends CharacterBody3D
 @export var stamina_drain_sprint : float = 20.0
 ## Stamina drained per second while wall riding.
 @export var stamina_drain_wall_ride : float = 25.0
-## Stamina regenerated per second when resting.
+## Allow stamina to regenerate passively over time.
+@export var stamina_natural_regen : bool = false
+## Stamina regenerated per second when resting (only if natural regen enabled).
 @export var stamina_regen_rate : float = 15.0
 ## Seconds after draining before regeneration begins.
 @export var stamina_regen_delay : float = 1.5
+
+#endregion
+
+#region Interaction Export Group
+
+@export_group("Interaction")
+## Max raycast distance for interacting with objects.
+@export var interact_distance : float = 2.5
 
 #endregion
 
@@ -255,6 +266,7 @@ func _physics_process(delta): # Most things happen here.
 		handle_wall_ride(delta, input_dir)
 
 	handle_stamina(delta)
+	handle_interaction()
 	handle_lean(delta)
 	handle_head_rotation()
 
@@ -466,11 +478,34 @@ func handle_stamina(delta: float):
 
 	if draining:
 		stamina_regen_timer = stamina_regen_delay
-	else:
+	elif stamina_natural_regen:
 		if stamina_regen_timer > 0.0:
 			stamina_regen_timer -= delta
 		else:
 			stamina = min(max_stamina, stamina + stamina_regen_rate * delta)
+
+
+func handle_interaction() -> void:
+	var label := $UserInterface/InteractionLabel as Label
+	if not InputMap.has_action(controls.INTERACT):
+		label.visible = false
+		return
+
+	var space := get_world_3d().direct_space_state
+	var origin := CAMERA.global_position
+	var target := origin + (-CAMERA.global_transform.basis.z) * interact_distance
+	var query := PhysicsRayQueryParameters3D.create(origin, target)
+	query.exclude = [self]
+	var hit := space.intersect_ray(query)
+
+	var interactable = hit.get("collider") if hit else null
+	if interactable and interactable.has_method("interact"):
+		label.text = "Press [F] to interact"
+		label.visible = true
+		if Input.is_action_just_pressed(controls.INTERACT):
+			interactable.interact(self)
+	else:
+		label.visible = false
 
 
 func check_controls(): # If you add a control, you might want to add a check for it here.
