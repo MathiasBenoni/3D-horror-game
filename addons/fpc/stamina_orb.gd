@@ -72,14 +72,14 @@ func _draw_fill(pct: float, is_low: bool) -> void:
 func _draw_liquid(pct: float, color: Color) -> void:
 	var r := ORB_RADIUS - 2.0
 	# Slight slosh on surface for horror feel
-	var slosh := sin(_pulse_time * 2.3) * 0.018 * r + sin(_pulse_time * 3.7) * 0.009 * r
-	var surface_y_local := clamp(r * (1.0 - 2.0 * pct) + slosh, -r * 0.98, r * 0.98)
-	var surface_y := CENTER.y + surface_y_local
+	var slosh : float = sin(_pulse_time * 2.3) * 0.018 * r + sin(_pulse_time * 3.7) * 0.009 * r
+	var surface_y_local : float = clamp(r * (1.0 - 2.0 * pct) + slosh, -r * 0.98, r * 0.98)
+	var surface_y : float = CENTER.y + surface_y_local
 
 	# Circle intersection angles at the surface line
-	var sin_val := clamp(surface_y_local / r, -1.0, 1.0)
-	var angle_r := asin(sin_val)
-	var angle_l := PI - angle_r
+	var sin_val : float = clamp(surface_y_local / r, -1.0, 1.0)
+	var angle_r : float = asin(sin_val)
+	var angle_l : float = PI - angle_r
 
 	# Arc from right intersection clockwise through bottom to left intersection
 	var segments := 52
