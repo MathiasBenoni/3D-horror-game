@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://hutuis63hgev" path="res://addons/fpc/character.gd" id="1_0t4e8"]
 [ext_resource type="Script" uid="uid://dgfl3skp075ft" path="res://addons/fpc/EditorModule.gd" id="3_v3ckk"]
 [ext_resource type="Script" uid="uid://u5u7xxlvmcxx" path="res://addons/fpc/debug.gd" id="3_x1wcc"]
-[ext_resource type="Script" uid="uid://bstmnaorbgh3x" path="res://addons/fpc/stamina_orb.gd" id="5_stmna"]
+[ext_resource type="Script" path="res://addons/fpc/stamina_orb.gd" id="5_stmna"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_kp17n"]
 albedo_color = Color(0.909804, 0.596078, 0, 1)

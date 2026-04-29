@@ -23,8 +23,8 @@ func _draw() -> void:
 	if not _character:
 		return
 
-	var pct := clamp(_character.stamina / _character.max_stamina, 0.0, 1.0)
-	var is_low := pct < LOW_THRESHOLD
+	var pct : float = clamp(float(_character.stamina) / float(_character.max_stamina), 0.0, 1.0)
+	var is_low : bool = pct < LOW_THRESHOLD
 
 	_draw_glow(is_low)
 	_draw_base()
