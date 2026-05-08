@@ -496,11 +496,12 @@ func handle_interaction() -> void:
 	var target := origin + (-CAMERA.global_transform.basis.z) * interact_distance
 	var query := PhysicsRayQueryParameters3D.create(origin, target)
 	query.exclude = [self]
+	query.collide_with_areas = true
 	var hit := space.intersect_ray(query)
 
 	var interactable = hit.get("collider") if hit else null
 	if interactable and interactable.has_method("interact"):
-		label.text = "Press [F] to interact"
+		label.text = "Press [E] to interact"
 		label.visible = true
 		if Input.is_action_just_pressed(controls.INTERACT):
 			interactable.interact(self)

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cqlg1aj4xq4du"]
 
 [ext_resource type="PackedScene" uid="uid://cc1m2a1obsyn4" path="res://addons/fpc/character.tscn" id="1_o5qli"]
+[ext_resource type="PackedScene" path="res://scenes/syringe.tscn" id="2_syrng"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_sgp6g"]
 sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
@@ -150,3 +151,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 9, 3.5, -8)
 use_collision = true
 size = Vector3(1.5, 7, 1.5)
 material = SubResource("Mat_wall")
+
+[node name="Syringe" parent="." unique_id=200000017 instance=ExtResource("2_syrng")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.8, -2)

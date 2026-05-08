@@ -26,10 +26,10 @@ bottom_radius = 0.003
 height = 0.06
 
 [sub_resource type="CapsuleShape3D" id="Shape_col"]
-radius = 0.022
-height = 0.16
+radius = 0.08
+height = 0.22
 
-[node name="Syringe" type="StaticBody3D"]
+[node name="Syringe" type="Area3D"]
 script = ExtResource("1_syrng")
 
 [node name="Body" type="MeshInstance3D" parent="."]

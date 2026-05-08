@@ -1,4 +1,4 @@
-extends StaticBody3D
+extends Area3D
 
 ## How much stamina this syringe restores when used.
 @export var stamina_restore : float = 35.0
